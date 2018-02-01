@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QREG.Formular">
+    <ScrollView x:Name="FormularRootView">
+        <StackLayout Orientation="Vertical" x:Name="FormularLayout">
+            <!--
+            <Label Text="Afvigelse - kort overskrift"></Label>
+            <Entry x:Name="OverskriftEntry"></Entry>
+            <Label Text="Afvigelse"></Label>
+            <Entry x:Name="AfvigelseEntry"></Entry>
+            <Label Text="Korrigerende handlinger"></Label>
+            <Entry x:Name="KorrigerendeHandlingerEntry"></Entry>
+            <Label Text="Forslag til forbedringer"></Label>
+            <Entry x:Name="ForslagEntry"></Entry>
+            <Label Text="Handleplan"></Label>
+            <Entry x:Name="HandleplanEntry"></Entry>
+            <Label Text="Kategori"></Label>
+            <Picker x:Name="KategoriPicker" Title="Kategori">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Mindre</x:String>
+                        <x:String>Moderat</x:String>
+                        <x:String>Kritisk</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Label></Label>
+            <Button Text="Indsend" Clicked="Button_Clicked" x:Name="SendButton"></Button> -->
+        </StackLayout>
+    </ScrollView>
+    
+</ContentPage>

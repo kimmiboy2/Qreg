@@ -2,10 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:QREG"
-             x:Class="QREG.MainPage">
+             x:Class="QREG.MainPage"
+             Title="Login"
+             NavigationPage.HasBackButton="False">
 
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <StackLayout Orientation="Vertical">
+        <Entry x:Name="firma_Entry" Placeholder="Indtast firmanavn" Text="Qregdemo"></Entry>
+        <Entry x:Name="brugernavn_Entry" Placeholder="Indtast brugernavn" Text="IMPKIM"></Entry>
+        <Entry x:Name="password_Entry" Placeholder="Indtast password" Text="Kim2017"></Entry>
+        <Button x:Name="login_Button" Text="Log ind" Clicked="login_Button_Clicked"></Button>
+    </StackLayout>
+	
 
 </ContentPage>

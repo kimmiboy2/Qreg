@@ -9,11 +9,15 @@ namespace QREG
 {
     public partial class App : Application
     {
+        string BRUGERNAVN_KEY = "Brugernavn";
+        string FIRMA_KEY = "Firma";
+        string PASSWORD_KEY = "Password";
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new QREG.MainPage();
+            MainPage = new NavigationPage(new QREG.MainPage());
         }
 
         protected override void OnStart()
