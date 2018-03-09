@@ -13,5 +13,10 @@ namespace QREG.DynamicUI
         {
             return null;
         }
+
+        public override void Save()
+        {
+            
+        }
     }
 }

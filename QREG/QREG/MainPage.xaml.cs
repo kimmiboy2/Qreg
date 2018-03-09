@@ -14,11 +14,6 @@ namespace QREG
         {
             InitializeComponent();
             _login = new Login();
-
-            MessagingCenter.Subscribe<Sync>(this, "LoginSucceded", (sender) => {
-                Navigation.PushAsync(new MainMenuPage());
-            });
-
         }
 
         private void login_Button_Clicked(object sender, EventArgs e)
@@ -28,8 +23,6 @@ namespace QREG
             Application.Current.Properties["password"] = password_Entry.Text;
             _login.loadLoginInfo();
             _login.loadCustomerPath();
-
-
         }
     }
 }

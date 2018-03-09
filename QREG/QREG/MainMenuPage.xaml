@@ -2,13 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QREG.MainMenuPage"
-             Title="MainMenu"
+             Title="Qreg"
              NavigationPage.HasBackButton="false"
-             x:Name="ContentLayout">
-    
-    <ScrollView x:Name="ParentLayout">
-        <StackLayout x:Name="MainLayout">
+             x:Name="ContentLayout"
+             BackgroundColor="LightBlue">
+
+    <StackLayout x:Name="ParentLayout">
+        <ScrollView>
+            <StackLayout>
+                <Grid Padding="20,20,20,20" ColumnSpacing="20" RowSpacing="20" x:Name="MainLayout">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+        <StackLayout VerticalOptions="End" >
+            <Button Text="Historik"></Button>
         </StackLayout>
-    </ScrollView>
-    
+    </StackLayout>
+
 </ContentPage>

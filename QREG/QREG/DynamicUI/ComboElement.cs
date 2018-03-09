@@ -10,13 +10,14 @@ namespace QREG.DynamicUI
 {
     class ComboElement : AbstractDynamicUI
     {
+        Picker picker;
         public override View getViewElement()
         {
 
             bool multiselect = getMultiSelect();
             if (multiselect == false)
             {
-                Picker picker = new Picker();
+                picker = new Picker();
                 picker.Title = "Vælg";
 
                 Dictionary<string, string> valueDictionary = getValueList();
@@ -43,6 +44,14 @@ namespace QREG.DynamicUI
                 return label;
             }
             else return null;
+        }
+
+        public override void Save()
+        {
+            if(picker.SelectedItem != null || !picker.SelectedItem.Equals(""))
+            {
+                setValue(picker.SelectedItem.ToString());
+            }
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

@@ -36,7 +36,6 @@ namespace QREG
             }
 
             else this.method = "JSONFETCHER_METHOD_GET";
-
             return null;
         }
 
@@ -50,6 +49,7 @@ namespace QREG
                 {
                     if(assignment.Equals("LOGIN"))
                     {
+
                         MessagingCenter.Send<JSONFetcher, string>(this, "loginResponseString", responseString);
                     }
                     else saveData(responseString, assignment);
@@ -98,20 +98,21 @@ namespace QREG
                 {
                     //Did not receive data
                 }
-
-
             }
 
             else if (assignment.Equals("JSON_ACTIONS_GET_DEPTNAMES"))
             {
                 Application.Current.Properties["DEPTPEOPLE"] = responseJSON["data"];
-                MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTIONS_GET_DEPTNAMES_LOADED");
+                //sync.downloadIcons();
+                //MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTIONS_GET_DEPTNAMES_LOADED");
             }
 
             else if (assignment.Equals("JSON_ACTION_GET_KEYWORDS"))
             {
                 Application.Current.Properties["KEYWORDS"] = responseJSON["data"];
-                MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED");
+                Sync sync = new Sync();
+                sync.downloadDeptPeople();
+                //MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED");
             }
 
             else if (assignment.Equals("TEMPLATE_DATA"))
@@ -122,19 +123,12 @@ namespace QREG
                 templateDictionary.Add(count, responseString);
 
                 MessagingCenter.Send<JSONFetcher, int>(this, "TEMPLATE_LOADED", i);
-
             }
 
             else if (assignment.Equals("TEMPLATES_DATA"))
             {
                 Application.Current.Properties["TEMPLATES"] = responseJSON["data"];
                 MessagingCenter.Send<JSONFetcher>(this, "TEMPLATES_LOADED");
-            }
-
-            else if (assignment.Equals("JSON_ACTIONS_GET_DEPTNAMES"))
-            {
-                string tes34t = "12323123";
-                //JSONDictionary.Instance.Add(assignment, responseJSON);
             }
 
             else if (assignment.Equals(Constants.LOAD_SESSION_DATA))

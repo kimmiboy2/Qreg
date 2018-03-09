@@ -11,7 +11,19 @@ namespace QREG.DynamicUI
     {
         public override View getViewElement()
         {
-            return new Label();
+            Label label = new Label { Margin = new Thickness(0, -5, 0, -5)};
+            label.BackgroundColor = Color.DimGray;
+            label.TextColor = Color.White;
+            label.FontSize = 20;
+            label.FontAttributes = FontAttributes.Bold;
+            label.Text = " " + getLabel();
+
+            return label;
+        }
+
+        public override void Save()
+        {
+            
         }
     }
 }

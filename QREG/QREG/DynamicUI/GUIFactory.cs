@@ -80,6 +80,11 @@ namespace QREG.DynamicUI
                 return new DateElement();
             }
 
+            if (type.Equals("label"))
+            {
+                return new LabelElement();
+            }
+
             return null;
         }
     }

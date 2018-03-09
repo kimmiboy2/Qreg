@@ -34,15 +34,15 @@ namespace QREG
             //When keywords are done loading
             MessagingCenter.Subscribe<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED", (sender) =>
             {
-                MessagingCenter.Unsubscribe<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED");
                 downloadDeptPeople();
+                MessagingCenter.Unsubscribe<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED");
             });
 
             //When department people are done loading
             MessagingCenter.Subscribe<JSONFetcher>(this, "JSON_ACTIONS_GET_DEPTNAMES_LOADED", (sender) =>
             {
                 MessagingCenter.Unsubscribe<JSONFetcher>(this, "JSON_ACTIONS_GET_DEPTNAMES_LOADED");
-                downloadIcons();
+                //downloadIcons();
             });
 
             //When each template are done lading
@@ -94,33 +94,21 @@ namespace QREG
             jsonFetcher.startJSONFetch();
         }
 
-        private void downloadDeptPeople()
+        public void downloadDeptPeople()
         {
             string url = String.Format("{0}{1}GetPicklistValues?OpenAgent", server, path);
             parameters.Clear();
             parameters.Add("action", "departmentnames");
             jsonFetcher.initWithUrl(url, POST, "JSON_ACTIONS_GET_DEPTNAMES", parameters);
             jsonFetcher.startJSONFetch();
+
+            openMainMenu();
         }
 
-        //Get icons
-        private void downloadIcons()
+        private void openMainMenu()
         {
-            //Dictionary<string, object> templateDictionary = TemplateDictionary.Instance();
-            //templateDictionary.TryGetValue("0", out object template);
-
-            //JObject jsonTemplate = JObject.Parse(template.ToString());
-
-            //string iconUrl = (string)jsonTemplate["templateiconurl"];
-
-            openNewWindow();
-
-            
-        }
-
-        private void openNewWindow()
-        {
-            MessagingCenter.Send<Sync>(this, "LoginSucceded");
+            App.Current.Properties["isUserLoggedIn"] = true;
+            App.Current.MainPage.Navigation.PushAsync(new MainMenuPage());
         }
 
     }

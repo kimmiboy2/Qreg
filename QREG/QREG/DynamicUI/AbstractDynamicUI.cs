@@ -12,7 +12,7 @@ namespace QREG.DynamicUI
         bool multiSelect = false;
         bool required = false;
 
-        string id, label;
+        string id, label, value;
 
         public Dictionary<string, string> valueDictionary;
 
@@ -38,6 +38,11 @@ namespace QREG.DynamicUI
             this.required = required;
         }
 
+        public bool getRequired()
+        {
+            return this.required;
+        }
+
         //Sets if multiselect should be possible or not
         public void setMultiSelect(bool multiSelect)
         {
@@ -60,6 +65,18 @@ namespace QREG.DynamicUI
             return this.label;
         }
 
+        //Sets the value
+        public void setValue(string value)
+        {
+            this.value = value;
+        }
+
+        //Gets the value
+        public string getValue()
+        {
+            return this.value;
+        }
+
         //Sets the valueList in JSONTemplate
         public void setValueList(Dictionary<string, string> valueList)
         {
@@ -70,5 +87,10 @@ namespace QREG.DynamicUI
         {
             return this.valueDictionary;
         }
+
+        //Saves the values in the elements
+        public abstract void Save();
+
+        
     }
 }

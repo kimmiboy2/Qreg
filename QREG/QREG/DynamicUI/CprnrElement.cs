@@ -9,10 +9,16 @@ namespace QREG.DynamicUI
 {
     class CprnrElement : AbstractDynamicUI
     {
+        Entry entry;
         public override View getViewElement()
         {
-            Entry entry = new Entry { Keyboard = Keyboard.Numeric};
+            entry = new Entry { Keyboard = Keyboard.Numeric};
             return entry;
+        }
+
+        public override void Save()
+        {
+            setValue(entry.Text);
         }
     }
 }

@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:QREG"
              x:Class="QREG.MainPage"
              Title="Login"
-             NavigationPage.HasBackButton="False">
+             NavigationPage.HasBackButton="False"
+             BackgroundColor="LightBlue">
 
     <StackLayout Orientation="Vertical">
         <Entry x:Name="firma_Entry" Placeholder="Indtast firmanavn" Text="Qregdemo"></Entry>

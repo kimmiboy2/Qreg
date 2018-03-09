@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace QREG
 {
-    class Login
+    class Login : IJSONFetcherResponse
     {
         string firma, brugernavn, password;
         string GET = "JSONFETCHER_METHOD_GET";
@@ -22,7 +22,6 @@ namespace QREG
                 if (!arg.Contains("names.nsf?Login"))
                 {
                     MessagingCenter.Unsubscribe<JSONFetcher, string>(this, "loginResponseString");
-                    Application.Current.Properties["Authenticated"] = "true";
                     Application.Current.MainPage.DisplayAlert("Login success", "Logget ind", "OK");
                     loadSessionData();
                 }
@@ -53,6 +52,7 @@ namespace QREG
         {
             string url = String.Format("http://myqreg.dk/qreg/{0}", firma);
             string method = GET;
+
             string assignment = "JSON_ACTION_LOAD_CUST_PATH";
 
             jsonfetcher.initWithUrl(url, method, assignment, null);
@@ -77,7 +77,6 @@ namespace QREG
             Sync sync = new Sync();
             sync.downloadTemplates();
         }
-
 
     }
 }

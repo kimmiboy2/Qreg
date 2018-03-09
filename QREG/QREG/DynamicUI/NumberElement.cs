@@ -9,10 +9,43 @@ namespace QREG.DynamicUI
 {
     class NumberElement : AbstractDynamicUI
     {
+        Frame frame;
+        Entry entry;
         public override View getViewElement()
         {
-            Entry entry = new Entry { Keyboard = Keyboard.Numeric };
-            return entry;
+            entry = new Entry { Keyboard = Keyboard.Numeric};
+            if (getRequired() == true)
+            {
+                entry.TextChanged += Entry_TextChanged;
+                entry.Placeholder = "Påkrævet";
+                frame = new Frame { Content = entry, Margin = new Thickness(10, 0, 10, 0), OutlineColor = Color.Red, BackgroundColor = Color.Pink };
+                frame.HasShadow = false;
+                return frame;
+            }
+
+            else return entry;
+
+
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!entry.Text.Equals(""))
+            {
+                frame.OutlineColor = Color.White;
+                frame.BackgroundColor = Color.White;
+            }
+
+            if (entry.Text.Equals(""))
+            {
+                frame.OutlineColor = Color.Red;
+                frame.BackgroundColor = Color.Pink;
+            }
+        }
+
+        public override void Save()
+        {
+            setValue(entry.Text);
         }
     }
 }

@@ -9,9 +9,22 @@ namespace QREG.DynamicUI
 {
     class TextAreaElement : AbstractDynamicUI
     {
+        Editor editor;
         public override View getViewElement()
         {
-            return new Editor();
+            editor = new Editor();
+            editor.HeightRequest = 150;
+
+            ScrollView scrollview = new ScrollView { Content = editor };
+            Frame frame = new Frame { Content = scrollview, Margin = new Thickness(10,0,10,0)};
+            return frame;
+
+            //return new Editor();
+        }
+
+        public override void Save()
+        {
+            setValue(editor.Text);
         }
     }
 }

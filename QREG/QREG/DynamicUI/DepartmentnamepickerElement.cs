@@ -21,6 +21,11 @@ namespace QREG.DynamicUI
             return label;
         }
 
+        public override void Save()
+        {
+            
+        }
+
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             //Sender besked til Formular.class

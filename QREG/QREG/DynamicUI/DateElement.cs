@@ -9,9 +9,16 @@ namespace QREG.DynamicUI
 {
     class DateElement : AbstractDynamicUI
     {
+        DatePicker datepicker;
         public override View getViewElement()
         {
-            return new DatePicker();
+            datepicker = new DatePicker();
+            return datepicker;
+        }
+
+        public override void Save()
+        {
+            setValue(datepicker.Date.ToString());
         }
     }
 }

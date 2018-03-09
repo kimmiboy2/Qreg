@@ -9,9 +9,10 @@ namespace QREG.DynamicUI
 {
     class RadioElement : AbstractDynamicUI
     {
+        Picker picker;
         public override View getViewElement()
         {
-            Picker picker = new Picker();
+            picker = new Picker();
             picker.Title = "Vælg";
 
             if (valueDictionary != null)
@@ -21,6 +22,15 @@ namespace QREG.DynamicUI
             }
 
             return picker;
+        }
+
+        public override void Save()
+        {
+            if(picker.SelectedItem != null)
+            {
+                setValue(picker.SelectedItem.ToString());
+            }
+            
         }
     }
 }
