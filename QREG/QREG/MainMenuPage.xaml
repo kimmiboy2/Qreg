@@ -5,7 +5,7 @@
              Title="Qreg"
              NavigationPage.HasBackButton="false"
              x:Name="ContentLayout"
-             BackgroundColor="LightBlue">
+             BackgroundColor="LightSlateGray">
 
     <StackLayout x:Name="ParentLayout">
         <ScrollView>
@@ -22,8 +22,9 @@
                 </Grid>
             </StackLayout>
         </ScrollView>
-        <StackLayout VerticalOptions="End" >
-            <Button Text="Historik"></Button>
+        <StackLayout VerticalOptions="End" Orientation="Horizontal">
+            <Button Text="Historik" HorizontalOptions="Start" WidthRequest="200"></Button>
+            <Button Text="Indstillinger" HorizontalOptions="End" Clicked="Button_Clicked"></Button>
         </StackLayout>
     </StackLayout>
 

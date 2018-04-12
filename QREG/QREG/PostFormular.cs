@@ -14,10 +14,9 @@ namespace QREG
     {
         List<AbstractDynamicUI> dynamicUIList;
         Dictionary<string, string> formularDictionary = new Dictionary<string, string>();
-        FlurlClient flurlClient = FlurlClient_Singleton.GetInstance();
         string formtemplateid, templateversion;
         bool allRequiredFieldsFilled = true;
-        
+        FlurlClient flurlClient;
 
         public PostFormular(List<AbstractDynamicUI> dynamicUIList, string formtemplateid, string templateversion)
         {
@@ -60,7 +59,40 @@ namespace QREG
 
             if (allRequiredFieldsFilled)
             {
-                PostToURL();
+                Authenticate();
+            }
+        }
+
+        private void Authenticate()
+        {
+            performAuthentication();
+
+        }
+
+        private async void performAuthentication()
+        {
+            flurlClient = FlurlClient_Singleton.GetInstance();
+            //loadCustomerPath
+            string firma = Application.Current.Properties["firma"] as string;
+            string urlCus = String.Format("http://myqreg.dk/qreg/{0}", firma);
+
+            Task<string> getStringTask = urlCus.WithClient(flurlClient).GetStringAsync();
+            string responseString = await getStringTask;
+
+            if(responseString != null)
+            {
+                string server = Application.Current.Properties["SERVER"] as string;
+                string brugernavn = Application.Current.Properties["brugernavn"] as string;
+                string password = Application.Current.Properties["password"] as string;
+                string url = String.Format("{0}/names.nsf?login&username={1}&password={2}", server, brugernavn, password);
+
+                Task<string> getStringTask1 = url.WithClient(flurlClient).GetStringAsync();
+                string responseString1 = await getStringTask1;
+                if(responseString1 != null)
+                {
+                    FlurlClient_Singleton.setFlurlClient(flurlClient);
+                    PostToURL();
+                }
             }
         }
 

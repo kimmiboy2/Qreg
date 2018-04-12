@@ -9,14 +9,18 @@ namespace QREG.DynamicUI
 {
     class EditorElement : AbstractDynamicUI
     {
+        Editor editor;
         public override View getViewElement()
         {
-            return null;
+            editor = new Editor();
+            return editor;
         }
+
+
 
         public override void Save()
         {
-            
+            setValue(editor.Text);
         }
     }
 }

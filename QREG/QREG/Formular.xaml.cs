@@ -17,7 +17,7 @@ namespace QREG
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Formular : CoolContentPage
     {
-        JSONFetcher jsonFetcher = new JSONFetcher();
+        JSONFetcher jsonFetcher = new JSONFetcher(null);
         Dictionary<string, string> parameters = new Dictionary<string, string>();
         FlurlClient flurlClient = FlurlClient_Singleton.GetInstance();
         List<AbstractDynamicUI> dynamicUIList = new List<AbstractDynamicUI>();
@@ -67,7 +67,7 @@ namespace QREG
         private void generateTemplate()
         {
             DynamicUIFactory dynamicUIFactory = new DynamicUIFactory();
-            Dictionary<string, object> templateDictionary = TemplateDictionary.Instance();
+            Dictionary<string, string> templateDictionary = TemplateDictionary.Instance();
             JObject template = JObject.Parse((string)templateDictionary[templateArrayNumber]);
             bool required, multiselect;
             string label, fieldname;
@@ -126,7 +126,9 @@ namespace QREG
                             //Gets keywords from keywordalias
                             if (sourcetype.Equals("keyword"))
                             {
-                                JArray keywordList = Application.Current.Properties["KEYWORDS"] as JArray;
+                                string json = Application.Current.Properties["KEYWORDS"] as string;
+                                JArray keywordList = JArray.Parse(json);
+                                //JArray keywordList = Application.Current.Properties["KEYWORDS"] as JArray;
                                 string keyword = (string)fields[ii]["keywordalias"];
 
                                 for (int iiii = 0; iiii < keywordList.Count; iiii++)
@@ -230,6 +232,16 @@ namespace QREG
 
         private void Button_Clicked(object sender, EventArgs e)
         {
+            var overlay = new AbsoluteLayout();
+            var content = new StackLayout();
+            var loadingIndicator = new ActivityIndicator();
+            AbsoluteLayout.SetLayoutFlags(content, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(content, new Rectangle(0f, 0f, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(loadingIndicator, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(loadingIndicator, new Rectangle(0.5, 0.5, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            overlay.Children.Add(content);
+            overlay.Children.Add(loadingIndicator);
+
             foreach (AbstractDynamicUI element in dynamicUIList)
             {
                 element.Save();
@@ -237,51 +249,6 @@ namespace QREG
 
             PostFormular postFormular = new PostFormular(dynamicUIList, formtemplateid, templateversion);
             postFormular.Post();
-
-            /**
-            overskrift = OverskriftEntry.Text;
-            afvigelse = AfvigelseEntry.Text;
-            korrigerendehandling = KorrigerendeHandlingerEntry.Text;
-            forslag = ForslagEntry.Text;
-            handleplan = HandleplanEntry.Text;
-            kategori = KategoriPicker.Items[KategoriPicker.SelectedIndex];
-            url = "https://e-dok.rm.dk/qreg/hoveim/qreg.nsf/HandleDeviation?OpenAgent";
-
-            SendData();
-
-    */
-        }
-
-        private async void SendData()
-        {
-
-            string responseString = await url.WithClient(flurlClient)
-                        .PostUrlEncodedAsync(new
-                        {
-                            action = "save",
-                            formtemplateid = "D3DC808668768B6BC1257DCC003768C3",
-                            templateversion = 4,
-                            qreg_title = overskrift,
-                            beskrivelse = afvigelse,
-                            korrigerende = korrigerendehandling,
-                            forslag = forslag,
-                            handleplan = handleplan,
-                            kateg = kategori
-                        })
-                        .ReceiveString();
-
-            JObject responseJSON = JObject.Parse(responseString);
-            bool success = (bool)responseJSON["success"];
-            if (success)
-            {
-                await DisplayAlert("Formular indsendt", null, "OK");
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                await DisplayAlert("Formular ikke indsendt", null, "OK");
-            }
-
 
         }
 
@@ -295,25 +262,45 @@ namespace QREG
 
             foreach (AbstractDynamicUI element in dynamicUIList)
             {
-                if (!(element.GetType() == typeof(Label)))
+                View view = element.getViewElement();
+                if (view != null)
                 {
-                    if (element.getValue() != null)
+                    if (view.GetType() != typeof(Label))
                     {
-                        if (!(element.getValue().Equals("")))
+                        if (view.GetType() != typeof(DatePicker))
+                        {
+                            if (element.getValue() != null)
                             {
-                            hasFormularBeenEdited = true;
-                            break;
+                                if (!(element.getValue().Equals("")))
+                                {
+                                    hasFormularBeenEdited = true;
+                                    break;
+                                }
+                            }
                         }
                     }
-                } 
+                }
             }
 
             return hasFormularBeenEdited;
         }
 
-        private void saveFormular()
+        private async void saveFormular()
         {
-            //This is where a method should be made to save the dynamicUIList to a LIST. 
+            var answer = await DisplayAlert("Vil du gemme dine ændringer?", null, "Ja", "Nej");
+            //This is where a method should be made to save the dynamicUIList to a LIST.
+
+            if (answer)
+            {
+                History history = new History();
+                history.loadList(dynamicUIList);
+            }
+
+            else
+            {
+                await Navigation.PopAsync(true);
+            }
+            
         }
     }
 }

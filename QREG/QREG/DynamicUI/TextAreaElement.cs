@@ -22,6 +22,7 @@ namespace QREG.DynamicUI
             //return new Editor();
         }
 
+
         public override void Save()
         {
             setValue(editor.Text);

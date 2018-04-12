@@ -13,43 +13,42 @@ namespace QREG
         {
             InitializeComponent();
 
-            if (App.Current.Properties.ContainsKey("isUserLoggedIn"))
+            bool isUserLoggedIn;
+            if (Properties.ContainsKey("isUserLoggedIn"))
             {
-                bool isUserLoggedIn = (bool)App.Current.Properties["isUserLoggedIn"];
+                isUserLoggedIn = (bool)Properties["isUserLoggedIn"];
+            }
 
-                if (isUserLoggedIn)
-                {
-                    MainPage = new NavigationPage(new QREG.MainMenuPage());
-                }
-                else MainPage = new NavigationPage(new QREG.MainPage());
+            else isUserLoggedIn = false;
+
+            if (!isUserLoggedIn)
+            {
+                MainPage = new NavigationPage(new QREG.MainPage());
             }
 
             else
             {
-                MainPage = new NavigationPage(new MainPage());
-            }
-
-            
-
-            
+                MainPage = new NavigationPage(new QREG.MainMenuPage());
+            }           
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
-            App.Current.SavePropertiesAsync();
+            
         }
 
         protected override void OnSleep()
         {
             // Handle when your app sleeps
-            App.Current.SavePropertiesAsync();
+
+            
         }
 
         protected override void OnResume()
         {
             // Handle when your app resumes
-            App.Current.SavePropertiesAsync();
+            
         }
     }
 }

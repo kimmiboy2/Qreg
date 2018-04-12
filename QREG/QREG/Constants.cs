@@ -10,5 +10,6 @@ namespace QREG
     {
         public static string LOAD_SESSION_DATA = "LOAD_SESSION_DATA";
         public static string SESSION_DATA_LOADED = "SESSION_DATA_LOADED";
+        public static int templateCounter { get; set; }
     }
 }

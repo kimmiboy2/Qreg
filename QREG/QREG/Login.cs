@@ -13,7 +13,7 @@ namespace QREG
         string firma, brugernavn, password;
         string GET = "JSONFETCHER_METHOD_GET";
         string server, path;
-        JSONFetcher jsonfetcher = new JSONFetcher();
+        JSONFetcher jsonfetcher = new JSONFetcher(null);
 
         public Login()
         {
@@ -59,7 +59,7 @@ namespace QREG
             jsonfetcher.startJSONFetch();
         }
 
-        private void performAuthentification()
+        public void performAuthentification()
         {
             server = Application.Current.Properties["SERVER"] as string;
             string url = String.Format("{0}/names.nsf?login&username={1}&password={2}", server, brugernavn, password);
@@ -67,7 +67,7 @@ namespace QREG
             jsonfetcher.startJSONFetch();
         }
 
-        private void loadSessionData()
+        public void loadSessionData()
         {
             path = Application.Current.Properties["DATABASE_DEVIATION"] as string;
             string url = String.Format("{0}{1}appsession?OpenAgent", server, path);

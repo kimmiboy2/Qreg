@@ -13,20 +13,25 @@ namespace QREG
 
         }
 
-        private static Dictionary<string, object> instance = null;
+        private static Dictionary<string, string> instance = null;
         private static readonly object _lock = new object();
 
-        public static Dictionary<string,object> Instance()
+        public static Dictionary<string,string> Instance()
         {
             lock (_lock)
             {
                 if(instance == null)
                 {
-                    instance = new Dictionary<string, object>();
+                    instance = new Dictionary<string, string>();
                 }
 
                 return instance;
             }
+        }
+
+        public static void setDictionary(Dictionary<string,string> dictionary)
+        {
+            instance = dictionary;
         }
     }
 }

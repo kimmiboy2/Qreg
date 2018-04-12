@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,25 +14,34 @@ namespace QREG
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuPage : ContentPage
     {
-        Grid grid;
         Frame frame;
         List<Frame> imageList = new List<Frame>();
+        Dictionary<string, string> templateDictionary;
         public MainMenuPage()
         {
             InitializeComponent();
             loadIcons();
-            App.Current.Properties["isUserLoggedIn"] = true;
-
         }
 
         private void loadIcons()
         {
-            Dictionary<string, object> templateDictionary = TemplateDictionary.Instance();
+
+            //Loads icon from TEMPLATE_DICTIONARY in application properties if it already exits.
+            if (Application.Current.Properties.ContainsKey("TEMPLATE_DICTIONARY"))
+            {
+                templateDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(Application.Current.Properties["TEMPLATE_DICTIONARY"] as string);
+                TemplateDictionary.setDictionary(templateDictionary);
+            }
+            else
+            {
+                templateDictionary = TemplateDictionary.Instance();
+                string templateJSON = JsonConvert.SerializeObject(templateDictionary, Formatting.Indented);
+                Application.Current.Properties["TEMPLATE_DICTIONARY"] = templateJSON;
+                Application.Current.SavePropertiesAsync();
+            }
 
             int left = 0;
             int top = 0;
-
-            
 
             for (int i = 0; i < templateDictionary.Count; i++)
             {
@@ -95,6 +105,10 @@ namespace QREG
 
             Navigation.PushAsync(new Formular(templateArrayNumber));
         }
-        
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new SettingsPage());
+        }
     }
 }

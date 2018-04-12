@@ -23,7 +23,7 @@ namespace QREG.DynamicUI
 
         public override void Save()
         {
-            
+
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

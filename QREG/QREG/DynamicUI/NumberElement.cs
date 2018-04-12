@@ -46,6 +46,7 @@ namespace QREG.DynamicUI
         public override void Save()
         {
             setValue(entry.Text);
+
         }
     }
 }

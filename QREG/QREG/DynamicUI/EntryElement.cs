@@ -27,6 +27,8 @@ namespace QREG.DynamicUI
 
         }
 
+
+
         private void Entry_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!entry.Text.Equals(""))

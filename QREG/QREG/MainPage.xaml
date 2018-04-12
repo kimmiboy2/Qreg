@@ -6,13 +6,71 @@
              Title="Login"
              NavigationPage.HasBackButton="False"
              BackgroundColor="LightBlue">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
 
-    <StackLayout Orientation="Vertical">
-        <Entry x:Name="firma_Entry" Placeholder="Indtast firmanavn" Text="Qregdemo"></Entry>
-        <Entry x:Name="brugernavn_Entry" Placeholder="Indtast brugernavn" Text="IMPKIM"></Entry>
-        <Entry x:Name="password_Entry" Placeholder="Indtast password" Text="Kim2017"></Entry>
-        <Button x:Name="login_Button" Text="Log ind" Clicked="login_Button_Clicked"></Button>
-    </StackLayout>
-	
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ScrollView>
+        <Grid Padding="20, 30, 20, 20" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
+            <Grid Grid.Row="2" HorizontalOptions="Fill" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="iconUsername.png" HeightRequest="30" VerticalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                <Entry Placeholder="Firma" Text="Qregdemo" BackgroundColor="Transparent" HorizontalOptions="Fill" TextColor="White" Grid.Row="0" Grid.Column="1" x:Name="firma_Entry"/>
+            </Grid>
+            <BoxView HeightRequest="1" Grid.Row="2" HorizontalOptions="Fill" BackgroundColor="White" VerticalOptions="End"/>
+
+            <Grid Grid.Row="3" HorizontalOptions="Fill" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="iconEmail.png" HeightRequest="30" VerticalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                <Entry Placeholder="Brugernavn" Text="IMPKIM" BackgroundColor="Transparent" HorizontalOptions="Fill" TextColor="White" Grid.Row="0" Grid.Column="1" x:Name="brugernavn_Entry"/>
+            </Grid>
+            <BoxView HeightRequest="1" Grid.Row="3" HorizontalOptions="Fill" BackgroundColor="White" VerticalOptions="End"/>
+
+            <Grid Grid.Row="4" HorizontalOptions="Fill" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="iconPassword.png" HeightRequest="30" VerticalOptions="Center" />
+                <Entry Placeholder="Password" IsPassword="True" Text="Kim2017" BackgroundColor="Transparent" HorizontalOptions="Fill" TextColor="White" Grid.Row="0" Grid.Column="1" x:Name="password_Entry"/>
+            </Grid>
+            <BoxView HeightRequest="1" Grid.Row="4" HorizontalOptions="Fill" BackgroundColor="White" VerticalOptions="End"/>
+
+            <StackLayout Grid.Row="5" Spacing="12" HorizontalOptions="Fill" >
+                <Button Text="Login" BackgroundColor="#1FBED6" HorizontalOptions="Fill" TextColor="White" Clicked="login_Button_Clicked"/>
+
+            </StackLayout>
+
+
+        </Grid>
+    </ScrollView>
 </ContentPage>

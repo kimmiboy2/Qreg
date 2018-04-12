@@ -35,6 +35,11 @@ namespace QREG
         {
             instance = null;
         }
+
+        public static void setFlurlClient(FlurlClient client)
+        {
+            instance = client;
+        }
     }
     
 }

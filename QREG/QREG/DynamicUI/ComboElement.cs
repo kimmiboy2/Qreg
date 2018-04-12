@@ -15,9 +15,10 @@ namespace QREG.DynamicUI
         {
 
             bool multiselect = getMultiSelect();
-            if (multiselect == false)
+            if (multiselect == false || multiselect == true)
             {
                 picker = new Picker();
+                picker.BackgroundColor = Color.White;
                 picker.Title = "Vælg";
 
                 Dictionary<string, string> valueDictionary = getValueList();
@@ -32,25 +33,26 @@ namespace QREG.DynamicUI
                 return picker;
 
             }
-            else if (multiselect == true)
-            {
-                Label label = new Label { Text = "Vælg" };
+            //else if (multiselect == true)
+            //{
+            //    Label label = new Label { Text = "Vælg" };
 
-                //Adds onTap event
-                var tapGestureRecognizer = new TapGestureRecognizer();
-                tapGestureRecognizer.Tapped += TapGestureRecognizer_Tapped;
-                label.GestureRecognizers.Add(tapGestureRecognizer);
+            //    //Adds onTap event
+            //    var tapGestureRecognizer = new TapGestureRecognizer();
+            //    tapGestureRecognizer.Tapped += TapGestureRecognizer_Tapped;
+            //    label.GestureRecognizers.Add(tapGestureRecognizer);
 
-                return label;
-            }
+            //    return label;
+            //}
             else return null;
         }
 
         public override void Save()
         {
-            if(picker.SelectedItem != null || !picker.SelectedItem.Equals(""))
+            if (!(picker.SelectedIndex == -1) || picker == null)
             {
-                setValue(picker.SelectedItem.ToString());
+                string value = picker.Items[picker.SelectedIndex];
+                setValue(value);
             }
         }
 

@@ -13,14 +13,15 @@ namespace QREG
     class JSONFetcher
     {
         string url, method, assignment;
-        FlurlClient _flurlClient;
+        FlurlClient _flurlClient = FlurlClient_Singleton.GetInstance();
         string responseString;
-        int i = 0;
+        int i = Constants.templateCounter;
         Dictionary<string, string> parameters;
+        Sync sync;
 
-        public JSONFetcher()
+        public JSONFetcher(Sync sync)
         {
-            _flurlClient = FlurlClient_Singleton.GetInstance();
+            this.sync = sync;
         }
 
         public string initWithUrl(string url, string method, string assignment, Dictionary<string, string> parameters)
@@ -47,11 +48,22 @@ namespace QREG
                 responseString = await url.WithClient(_flurlClient).GetStringAsync();
                 if (responseString != null)
                 {
-                    if(assignment.Equals("LOGIN"))
+                    if (assignment.Equals("LOGIN"))
                     {
-
+                        //if (!responseString.Contains("names.nsf?Login"))
+                        //{
+                        //    login = new Login();
+                        //    login.loadSessionData();
+                        //}
+                        //else
+                        //{
+                        //    Application.Current.Properties.Clear();
+                        //    await Application.Current.MainPage.DisplayAlert("Login fejl", "Forkert brugernavn eller adgangskode. Prøv igen.", "OK");
+                        //    disposeFlurlClient();
+                        //}
                         MessagingCenter.Send<JSONFetcher, string>(this, "loginResponseString", responseString);
                     }
+
                     else saveData(responseString, assignment);
                 }
             }
@@ -64,7 +76,7 @@ namespace QREG
                     parameters.TryGetValue("action", out string action);
                     parameters.TryGetValue("templateid", out string templateID);
                     responseString = await url.WithClient(_flurlClient)
-                        .PostUrlEncodedAsync(new { action = action , templateid = templateID})
+                        .PostUrlEncodedAsync(new { action = action, templateid = templateID })
                         .ReceiveString();
                 }
 
@@ -75,13 +87,13 @@ namespace QREG
                         .PostUrlEncodedAsync(new { action = parameter })
                         .ReceiveString();
                 }
-                
-                saveData(responseString, assignment);               
+
+                saveData(responseString, assignment);
             }
         }
 
         private void saveData(string responseString, string assignment)
-        {           
+        {
             JObject responseJSON = null;
             responseJSON = JObject.Parse(responseString);
 
@@ -102,14 +114,14 @@ namespace QREG
 
             else if (assignment.Equals("JSON_ACTIONS_GET_DEPTNAMES"))
             {
-                Application.Current.Properties["DEPTPEOPLE"] = responseJSON["data"];
+                Application.Current.Properties["DEPTPEOPLE"] = responseJSON["data"].ToString(); ;
                 //sync.downloadIcons();
                 //MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTIONS_GET_DEPTNAMES_LOADED");
             }
 
             else if (assignment.Equals("JSON_ACTION_GET_KEYWORDS"))
             {
-                Application.Current.Properties["KEYWORDS"] = responseJSON["data"];
+                Application.Current.Properties["KEYWORDS"] = responseJSON["data"].ToString();
                 Sync sync = new Sync();
                 sync.downloadDeptPeople();
                 //MessagingCenter.Send<JSONFetcher>(this, "JSON_ACTION_GET_KEYWORDS_LOADED");
@@ -117,17 +129,15 @@ namespace QREG
 
             else if (assignment.Equals("TEMPLATE_DATA"))
             {
-                i++;
-                Dictionary<string,object> templateDictionary = TemplateDictionary.Instance();
+                Dictionary<string, string> templateDictionary = TemplateDictionary.Instance();
                 string count = templateDictionary.Count().ToString();
                 templateDictionary.Add(count, responseString);
-
-                MessagingCenter.Send<JSONFetcher, int>(this, "TEMPLATE_LOADED", i);
+                sync.downloadTemplate();
             }
 
             else if (assignment.Equals("TEMPLATES_DATA"))
             {
-                Application.Current.Properties["TEMPLATES"] = responseJSON["data"];
+                Application.Current.Properties["TEMPLATES"] = responseJSON["data"].ToString();
                 MessagingCenter.Send<JSONFetcher>(this, "TEMPLATES_LOADED");
             }
 
